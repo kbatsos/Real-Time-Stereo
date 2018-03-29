@@ -90,7 +90,7 @@ __global__ void NisterMatch(const float* left, const float* right, double* integ
 
      for(int b=0; b<rp; b++){
 
-        if(blockIdx.x > 0 && (threadIdx.x+b*blockDim.x) < ndisp ){
+        if(blockIdx.x > 0 && (threadIdx.x+b*blockDim.x) < ndisp && (int)(Col -(ndisp-b*blockDim.x))>=0 ){
             row_slice[blockDim.x+(threadIdx.x+b*blockDim.x)] = right[Row*cols+(Col -(ndisp-b*blockDim.x))];
         }
     }    
@@ -131,7 +131,7 @@ __global__ void NCC(const double* integral_vol, double* slice,
 
      for(int b=0; b<rp; b++){
 
-        if(blockIdx.x > 0 && (threadIdx.x+b*blockDim.x) < ndisp ){
+        if(blockIdx.x > 0 && (threadIdx.x+b*blockDim.x) < ndisp && (int) (Col -(ndisp-b*blockDim.x)) >=0  ){
             Ar_sm[(threadIdx.x+b*blockDim.x)] = Ar[(Row+wc)*cols +  (Col -(ndisp-b*blockDim.x)+wc) ];
             Cr_sm[(threadIdx.x+b*blockDim.x)] = Cr[(Row+wc)*cols +  (Col -(ndisp-b*blockDim.x)+wc) ];
         }
@@ -159,7 +159,7 @@ __global__ void NCC(const double* integral_vol, double* slice,
 		    double ncccost = 2;
 
 
-		    if(Col < cols-wsize && dindex >=0){
+		    if(Col < cols-wsize && dindex >=0 && (int)Col-d>=0){
 
 		            const double lD = integral_vol[disp+(Row+wsize)*integrcols + (Col+wsize)]
 		                                            - integral_vol[disp+(Row)*integrcols + (Col+wsize)]

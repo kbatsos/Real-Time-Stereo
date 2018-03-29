@@ -119,7 +119,7 @@ __global__ void CensusSADKernel(uint64* censusl, uint64* censusr, float* cost, i
 	    	for (int d=0; d< ndisp; d++){
 	    		const int dindex = threaddispl+threadIdx.x-d;
 
-	    		if(Col < cols-wsize && dindex >=0){
+	    		if(Col < cols-wsize && dindex >=0 && (int)Col-d>=0){
 
 	    			float sum =0;
 					
