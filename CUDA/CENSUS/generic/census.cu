@@ -290,7 +290,7 @@ int main(int argc, char* argv[]){
 
 	string leftfile;
 	string rightfile;
-	string out=string("out");
+	string out=string(".");
 	string out_t=string("disp");
 	int wsize=9; 
 	int ndisp=256;

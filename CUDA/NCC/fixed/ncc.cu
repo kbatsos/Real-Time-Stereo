@@ -209,7 +209,7 @@ int main(int argc, char* argv[]){
 
     string leftfile;
     string rightfile;
-    string out=string("out");
+    string out=string(".");
     string out_t=string("disp");
     int ndisp=256;
     bool post=false;
