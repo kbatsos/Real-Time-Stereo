@@ -12,4 +12,4 @@ The code has been tested on Ubuntu 16.04, with gcc 5.4 and cuda 8 and 9. We have
 image formats. The only dependency of the code is png++ which comes with libpng. If you want to remove this dependency please modify imgio.hpp,
 or use your own image reader/writer. Sample makefiles are provided. For the CPU versions, your CPU must support the AVX2 instruction set. If your CPU 
 does not support this instructions set, please modify the -m flag according to the intel intrinsic instruction set your CPU supports. For NCC, code
-that is explicitly written using AVX2 must be removed or replaced. If you like to contribute with an implementation using SSE 4.2 or lower please contact me.
+that is explicitly written using AVX2 must be removed or replaced. If you are not sure about the compatibility of your system please execute the check_system_compatibility.sh file. If you like to contribute with an implementation using SSE 4.2 or lower please contact me.
