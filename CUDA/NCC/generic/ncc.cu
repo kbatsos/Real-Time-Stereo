@@ -148,9 +148,6 @@ __global__ void NCC(const double* integral_vol, double* slice,
 
 		__syncthreads();
 
-
-
-
 	   	#pragma unroll
 	    for (int d=0; d< ndisp; d++){
 	    

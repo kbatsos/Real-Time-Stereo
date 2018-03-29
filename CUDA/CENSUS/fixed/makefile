@@ -13,7 +13,7 @@ TARGET = census
 all: $(TARGET)
 
 $(TARGET): $(TARGET).cu 
-	$(NV) -lineinfo  -arch=sm_52 --restrict -Xptxas --allow-expensive-optimizations=true  -O3  -lpng16 -L$(CUDA_LIBS) -I$(PGM) -I$(POST) -Xcompiler -Wall -Xcompiler -fPIC -Xcompiler -g3 -Xcompiler -fopenmp $(TARGET).cu -o $(TARGET)
+	$(NV) -lineinfo  -arch=sm_52 --restrict -Xptxas --allow-expensive-optimizations=true  -O3  -lpng -L$(CUDA_LIBS) -I$(PGM) -I$(POST) -Xcompiler -Wall -Xcompiler -fPIC -Xcompiler -g3 -Xcompiler -fopenmp $(TARGET).cu -o $(TARGET)
 
 clean:
 	 rm -rf $(TARGET) *.o $(PGM)/*.o
