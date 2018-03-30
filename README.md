@@ -46,7 +46,7 @@ For NCC, navigate to the CPU/ncc folder and open ncc.cpp. Comment out line 21: `
 
 ## GPU Compilation
 
-Compilation on the GPU is rather straightforward. Navigate to the folder for the implementation you are interested in and type make. If your cuda libraries are located in a different directory than `/usr/local/cuda-#/lib64/` specify the directory in line 7. 
+Compilation on the GPU is rather straightforward. Navigate to the folder for the implementation you are interested in and type make. If your cuda libraries are in a different directory than `/usr/local/cuda-#/lib64/` specify the directory in line 7. 
 
 
 # How To Run
