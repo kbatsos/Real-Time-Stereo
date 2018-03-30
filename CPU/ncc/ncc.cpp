@@ -18,6 +18,7 @@
 #include "FastFilters.h"
 #include "StereoSGM.h"
 
+#define USE_AVX2
 
 using namespace std;
 using namespace std::chrono;
@@ -158,6 +159,7 @@ void ncc(uint8* leftp, uint8 *rightp, double* cost, int* shape, int ndisp, int w
 			const int t_row = i*intgrcols;
 			const int b_row = (i+wsize)*intgrcols;
 			int j=0;
+			#ifdef USE_AVX2
 			for(; j< shape[1]-wsize-4; j+=4){
 				const int col = j+wc;
   
@@ -230,6 +232,7 @@ void ncc(uint8* leftp, uint8 *rightp, double* cost, int* shape, int ndisp, int w
 
 
 			}
+			#endif
 
 			for(; j< shape[1]-wsize; j++){
 				const int col = j+wc;
@@ -347,6 +350,7 @@ void ncc(uint8* leftp, uint8 *rightp, double* cost, int* shape, int ndisp, int w
 				const int t_row = i*intgrcols;
 				const int b_row = (i+wsize)*intgrcols;
 				int j=d;
+				#ifdef USE_AVX2 
 				for(; j< shape[1]-wsize-4; j+=4){
 					const int col = (j+wc);
 
@@ -384,6 +388,7 @@ void ncc(uint8* leftp, uint8 *rightp, double* cost, int* shape, int ndisp, int w
 					_mm256_storeu_pd(&cost[d_row + row+col],ymm3);
 
 				}
+				#endif
 
 				for(; j< shape[1]-wsize; j++){
 					const int col = (j+wc);

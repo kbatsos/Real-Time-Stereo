@@ -18,7 +18,6 @@
 #include "FastFilters.h"
 #include "StereoSGM.h"
 
-
 using namespace std;
 using namespace std::chrono;
 typedef uint8_t uint8;

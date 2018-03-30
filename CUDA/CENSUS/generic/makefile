@@ -1,7 +1,6 @@
 #Set the compiler
 NV = nvcc
 
-# location of the Boost Python include files and library
 
 POST = ../../libs
 PGM = ../../../libs
