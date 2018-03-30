@@ -9,7 +9,7 @@ by Jure Zbontar [Stereo Matching by Training a Convolutional Neural Network to C
 # Compilation
 
 The code has been tested on Ubuntu 16.04, with gcc 5.4 and cuda 8 and 9. 
-A simple image reader/writer supporting pgm, pfm and png image formats. is included. The only dependency of the code is png++ which comes with libpng. If you want to remove this dependency please modify imgio.hpp, or use your own image reader/writer. 
+A simple image reader/writer supporting pgm, pfm and png image formats, is included. The only dependency of the code is png++ which comes with libpng. If you want to remove this dependency please modify imgio.hpp, or use your own image reader/writer. 
 
 Before compiling please run check_system_compatibility.sh.
 
