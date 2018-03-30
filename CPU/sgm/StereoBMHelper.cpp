@@ -13,7 +13,7 @@
 #include <string.h>
 #include <cstdlib>
 
-//#define USE_AVX2
+#define USE_AVX2
 
 // pop count LUT for for uint16
 uint16 m_popcount16LUT[UINT16_MAX+1];
