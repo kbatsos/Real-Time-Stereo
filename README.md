@@ -9,7 +9,7 @@ by Jure Zbontar [Stereo Matching by Training a Convolutional Neural Network to C
 # Compilation
 
 The code has been tested on Ubuntu 16.04, with gcc 5.4 and cuda 8 and 9. 
-A simple image reader/writer supporting pgm, pfm and png image formats. is included. The only dependency of the code is png++ which comes with libpng. If you want to remove this dependency please modify imgio.hpp, or use your own image reader/writer. 
+A simple image reader/writer supporting pgm, pfm and png image formats, is included. The only dependency of the code is png++ which comes with libpng. If you want to remove this dependency please modify imgio.hpp, or use your own image reader/writer. 
 
 Before compiling please run check_system_compatibility.sh.
 
@@ -30,12 +30,12 @@ The CPU folder contains all elements needed for the CPU implementations. Navigat
 
 ### For users with no AVX2 support
 
-Navigate to folder CPU/sgm. In the file StereoBMHelper.cpp, comment out line 16: `#define USE_AVX2`. Then navigate to the folder of the matcher you are interested and modify the makefine from:  
+Navigate to folder CPU/sgm. In the file StereoBMHelper.cpp, comment out line 16: `#define USE_AVX2`. Then navigate to the folder of the matcher you are interested and modify the makefile from:  
 `$(CPP) -I${CUSTOM_INC} -I${SGM} -O3 -g3 -Wall -fmessage-length=0 -mavx2 ....  `  
 to  
 `$(CPP) -I${CUSTOM_INC} -I${SGM} -O3 -g3 -Wall -fmessage-length=0 -mXXXX ....  `
 
-where -mXXX should be replaced high the highest intel intrinsic intruction set your CPU supports. If you are unsure about what type of intrinsic instruction set your CPU supports run:
+where -mXXX should be replaced by the highest intel intrinsic intruction set your CPU supports. If you are unsure about what type of intrinsic instruction set your CPU supports run:
 
 `cat /proc/cpuinfo`
 
@@ -46,12 +46,12 @@ For NCC, navigate to the CPU/ncc folder and open ncc.cpp. Comment out line 21: `
 
 ## GPU Compilation
 
-Compilation on the GPU is rather straightforward. Navigate to the folder for the implementation you are interested in and type make. If your cuda libraries are in a different directory than `/usr/local/cuda-#/lib64/` specify the directory in line 7. 
+Compilation on the GPU is rather straightforward. Navigate to the folder of the implementation you are interested in and type make. If your cuda libraries are in a different directory than `/usr/local/cuda-#/lib64/` specify the directory in line 7. 
 
 
 # How To Run
 
-After compiling you can get a list of arguments you can pass to the executable either by providing no arguments, or using the `-h` option.
+After compiling, you can get a list of arguments you can pass to the executable either by providing no arguments, or using the `-h` option.
 
 
 ## Arguments
