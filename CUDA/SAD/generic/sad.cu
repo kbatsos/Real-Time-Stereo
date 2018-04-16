@@ -257,14 +257,6 @@ int main(int argc, char* argv[]){
 	cudaMalloc(&tmp_d, width*ndisp*sizeof(float));
 	cudaMemsetAsync(tmp_d,0 , width*ndisp*sizeof(float),0);
 
-	float* left_cross;
-	cudaMalloc(&left_cross, 4*height*width*sizeof(float));
-	cudaMemsetAsync(left_cross,0 , 4*height*width*sizeof(float),0);
-
-	float* right_cross;
-	cudaMalloc(&right_cross, 4*height*width*sizeof(float));
-	cudaMemsetAsync(right_cross,0 , 4*height*width*sizeof(float),0);
-
 
 	int kr = ceil(params.sigma*3);
 	int ks = kr*2+1;
@@ -479,8 +471,6 @@ int main(int argc, char* argv[]){
 	cudaStreamDestroy(stream1);
 	cudaStreamDestroy(stream2);
 
-	cudaFree(left_cross);
-	cudaFree(right_cross);
    	cudaFree(tmp_d);
 	cudaFreeHost(imgl);
 	cudaFreeHost(imgr);

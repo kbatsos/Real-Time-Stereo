@@ -538,8 +538,16 @@ int main(int argc,char* argv[]){
 	}
 
 
-	if(ndisp%8!=0)
-		ndisp=ndisp+(8 - ndisp%8);
+	if(post){
+		if( params.lrCheck ){
+			if(ndisp%16 !=0){
+				ndisp=ndisp+(16 - ndisp%16);
+			}
+		}else{
+			if(ndisp%8!=0)
+				ndisp=ndisp+(8 - ndisp%8);
+		}
+	}
 
 	imgio* imgutil = new imgio();
  
@@ -570,15 +578,22 @@ int main(int argc,char* argv[]){
 		}	
 		
 		std::fill_n(cost,shape[0]*shape[1]*ndisp, wsize*wsize-1);
+		auto begin = std::chrono::high_resolution_clock::now();
 		ncc(imgl, imgr, cost, shape, ndisp, wsize);
+
 
 
 	 	if(post){
 	 		doPost( cost, shape ,imgl,out + string("/") +limg[i].substr(limg[i].find_last_of("/")+1),out_t,scale,1,numStrips,params);
+ 		
 		}else{
 			argmin( cost,  disp, shape );
 			imgutil->write_image(out + string("/") +limg[i].substr(limg[i].find_last_of("/")+1)  ,disp,out_t);
 		}
+
+		auto end = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count();
+		std::cout << (float)duration/1000 <<  std::endl;
 
 	}
 
