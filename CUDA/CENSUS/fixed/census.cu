@@ -85,43 +85,38 @@ __global__ void CensusSADKernel(uint64* censusl, uint64* censusr, float* cost, i
     const int wr = 7/2;
     const int wc = 9/2;
     int threaddispl = 0;
-    if(blockIdx.x ==1){
+    if(blockIdx.x >0){
     	threaddispl=ndisp;
     }
 
 
-		if(Col >= cols && Col < (cols+ndisp) ){
-			censr_slice_sm[Col-cols] = censusr[(Row+wr)*cols + (XDIM_MAX_THREADS + (Col-cols) -ndisp+wc) ];
+		if(blockIdx.x > 0 && threadIdx.x < ndisp && (int)(Col -(ndisp-blockDim.x)) >=0){
+			censr_slice_sm[Col-cols] = censusr[(Row+wr)*cols + (Col -(ndisp-blockDim.x)+wc) ];
 		}
 
 	    if(Col<cols){
 	            censl_slice = censusl[(Row+wr)*cols + (Col+wc) ];
 	            censr_slice_sm[threaddispl+ threadIdx.x ] = censusr[(Row+wr)*cols + (Col+wc) ];
+	     }
 	    
 	            __syncthreads();
 
-	    #pragma unroll
-	    for (int d=0; d< ndisp; d++){
+	     if(Row < rows-7 && Col < cols-9){       
+		    #pragma unroll
+		    for (int d=0; d< ndisp; d++){
+            
+		        	const int dind = threaddispl+threadIdx.x-d;
+		        	if(dind >0){
 
-	        if(Col-d >=0 ){	            
+		        		cost [ (d*rows+(Row+wr))*cols + (Col+wc) ]= (float)__popcll(censl_slice ^ censr_slice_sm[threaddispl+threadIdx.x-d ]);
 
-	        	if(Col < cols-9){
-
-	        		cost [ d*rows*cols+Row*cols+Col ]= (float)__popcll(censl_slice ^ censr_slice_sm[threaddispl+threadIdx.x-d ]);
-
-	        	}
-	           
-	           
-
-	         }
-	    }
-
-	}
-
+		        	}
+		              
+		    }
+		}
 	
 
 }
-
 
 void usage(void){
 	std::cout	<< "Census fixed window CUDA implementation" << std::endl;
@@ -337,18 +332,18 @@ int main(int argc, char* argv[]){
     	imgutil->read_image(limg[i],imgl);
 		imgutil->read_image(rimg[i],imgr);
 
+
+
 	    cudaMemcpyAsync( imgl_d, imgl, width*height*sizeof(float), cudaMemcpyHostToDevice,stream1);
 	    cudaMemcpyAsync( imgr_d, imgr, width*height*sizeof(float), cudaMemcpyHostToDevice,stream2);
 
-	    
-	    cudaMemsetAsync(cost_d,80 , height*width*ndisp*sizeof(float),stream1);
+	    cudaMemsetAsync(cost_d,90 , height*width*ndisp*sizeof(float),stream1);
 	    
 
 	    CensusTransformKernel<<<dimGridCens, dimBlockCens,0, stream1>>>(imgl_d,census_l_d,height, width);
 		CensusTransformKernel<<<dimGridCens, dimBlockCens,0, stream2>>>(imgr_d,census_r_d,height, width);    
 		
 		CensusSADKernel<<<dimGrid, dimBlock,(threads+ndisp)*sizeof(uint64)>>>(census_l_d,census_r_d,cost_d,height, width,ndisp); 
-
 		
 		
 	    if(post){
